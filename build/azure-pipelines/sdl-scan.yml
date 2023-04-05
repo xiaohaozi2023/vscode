@@ -121,6 +121,7 @@ stages:
               ls '$(agent.builddirectory)'
               ls '$(agent.builddirectory)\scanbin'
               ls '$(agent.builddirectory)\scanbin\VSCode-win32-$(VSCODE_ARCH)'
+              ls '$(agent.builddirectory)\scanbin\VSCode-win32-$(VSCODE_ARCH)\pdb'
             displayName: Show build directories
 
           - task: BinSkim@4
