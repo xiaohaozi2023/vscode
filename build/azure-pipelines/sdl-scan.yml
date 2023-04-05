@@ -117,6 +117,12 @@ stages:
               GITHUB_TOKEN: "$(github-distro-mixin-password)"
             displayName: Download Symbols
 
+          - powershell: |
+              ls '$(agent.builddirectory)'
+              ls '$(agent.builddirectory)\scanbin'
+              ls '$(agent.builddirectory)\scanbin\VSCode-win32-$(VSCODE_ARCH)'
+            displayName: Show build directories
+
           - task: BinSkim@4
             inputs:
               InputType: "Basic"
