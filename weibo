@@ -1,0 +1,27 @@
+
+# 导入urllib库的urlopen函数
+from urllib.request import urlopen
+# 导入BeautifulSoup
+from bs4 import BeautifulSoup
+
+# 请求获取HTML
+url = 'https://s.weibo.com/top/summary?cate=realtimehot'
+html = urlopen(url).read().decode('utf-8')
+# 用BeautifulSoup解析html
+soup = BeautifulSoup(html, features='lxml')
+# 找到热搜榜的tbody标签
+tbody = soup.tbody
+# 遍历tbody下的所有tr标签，每个tr标签代表一条热搜话题
+for item in tbody.find_all(name='tr'):
+    # 获取话题的排名、标题、链接和热度
+    rank = item.find(name='td', class_='td-01').string # 标签为td、属性class=td-01的元素值
+    title = item.find(name='a').string # 标签为a的元素值
+    href = item.select('a')[0]['href'] # 已知标签为a，获得属性href的值
+    if href == 'javascript:void(0);':
+        href = item.select('a')[0]['href_to'] # 如果href为javascript:void(0);，则获取属性href_to的值
+    url = 'https://s.weibo.com/' + href # 拼接完整的url
+    num = item.find(name='span') # 标签为span的元素值，即热度
+    if num != None:
+        num = num.string
+    # 打印结果
+    print(rank, title, url, num)
